@@ -1,9 +1,5 @@
 package fi.javits.yourClass;
 
-
-
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
