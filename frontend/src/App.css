@@ -1,0 +1,24 @@
+.App {
+  padding: 5em;
+}
+
+.MuiTypography-h3 {
+  padding: 1em 0 0.5em;
+}
+.MuiTabs-flexContainer {
+  border-bottom: 1px solid lightgray;
+}
+
+.MuiTabs-flexContainer .MuiTab-root {
+  padding: 18px 15px;
+  font-size: 1.2em;
+}
+.SectionHeader {
+  display: block;
+  border-bottom: 1px solid lightgray;
+  padding: 1em 0 0.5em 0.75em;
+  color: darkslategray;
+}
+
+
+
