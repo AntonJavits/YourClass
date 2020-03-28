@@ -14,11 +14,28 @@
   font-size: 1.2em;
 }
 .SectionHeader {
-  display: block;
+  display: flex;
+ 
   border-bottom: 1px solid lightgray;
   padding: 1em 0 0.5em 0.75em;
   color: darkslategray;
 }
+.SectionHeaderTitle {
+  
+}
+.SlideControl {
+  
+}
+.TableContainer {
+}
 
+.FieldsContainer {
+  display: flex;
+
+}
+
+.deleteCol {
+  width: 60px;
+}
 
 

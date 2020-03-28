@@ -2,12 +2,16 @@
 package fi.javits.yourClass;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fi.javits.yourClass.domain.Attendee;
 import fi.javits.yourClass.domain.AttendeeRepository;
@@ -39,6 +43,8 @@ public class YourClassApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(YourClassApplication.class, args);
 	}
+	
+  
 	
 	@Bean
 	CommandLineRunner runner(){

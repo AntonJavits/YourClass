@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
-
-
+import Collapse from '@material-ui/core/Collapse';
+import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import '../App.css';
 
 export default function Teachers() {
 
+      // Show/hide editing fields
+    const [checked, setChecked] = React.useState(true);
+    const handleChange = () => {
+        setChecked(prev => !prev);
+    }; 
     const [stateCustomers, setState] = React.useState([]);
     const [customer, setCustomer] = React.useState({
         firstName: '', lastName: '', tel: '', email: ''
@@ -126,16 +133,63 @@ export default function Teachers() {
     
     return (
         <div>
-         
+            <div className="SectionHeader">
                 <h1 className="SectionHeaderTitle">Teachers</h1>
+                <FormControlLabel
+                    control={<Switch checked={checked} onChange={handleChange} />}
+                    label="Show" className="SlideControl"
+                />
+            </div>
+            <div className="FormContainer">
+            <Collapse in={checked}>
+                <div className="FieldsContainer"> 
+                <TextField
+                        autoFocus
+                        margin="normal"
+                        variant="outlined"
+                        name="firstName"
+                        value={customer.firstName} 
+                        label="First Name"
+                        onChange = {e => handleInputChange(e) }
+                    />
+                     <TextField
+                        margin="normal"
+                        variant="outlined"
+                        name="lastName"
+                        value={customer.lastName} 
+                        label="Last Name"
+                        onChange = {e => handleInputChange(e) }
+                    />
+                     <TextField
+                        margin="normal"
+                        variant="outlined"
+                        name="tel"
+                        value={customer.tel} 
+                        label="Tel. number"
+                        onChange = {e => handleInputChange(e) }
+                    />
+                     <TextField
+                        margin="normal"
+                        variant="outlined"
+                        name="email"
+                        value={customer.email} 
+                        label="Email"
+                        onChange = {e => handleInputChange(e) }
+                    />
                 
-            
-           
+                   
+                    
+                        <Button onClick={addCustomer} color="primary" variant="contained">
+                            Add
+                        </Button>      
+                </div>
+            </Collapse>
 
 
 
 
-            
+            </div>
+            <div className="TableContainer">
                 <BootstrapTable keyField='links[0].href'
                 data={ stateCustomers } columns={ columns }  // data stateCustomers
                 headerClasses="header-class" striped hover 
@@ -146,7 +200,7 @@ export default function Teachers() {
                     blurToSave: true,
                     afterSaveCell: (oldValue, newValue, row, column) => { updateCustomer(row); }
                 }) } />
-            
+            </div>
         </div>
     )
 }

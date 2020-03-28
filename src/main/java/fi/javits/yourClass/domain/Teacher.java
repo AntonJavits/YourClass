@@ -8,17 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
+@Table(name = "teacher")
 public class Teacher {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long teacherId;
+	private Long Id;
 	private String firstName, lastName, tel, email;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="teacher")
+//	@PrimaryKeyJoinColumn(name = "class_record_id")
 	@JsonBackReference
 	private List<ClassRecord> classRecords;	
 	
@@ -33,11 +37,11 @@ public class Teacher {
 	}
 
 	public Long getTeacherId() {
-		return teacherId;
+		return Id;
 	}
 
-	public void setTeacherId(Long teacherId) {
-		this.teacherId = teacherId;
+	public void setTeacherId(Long Id) {
+		this.Id = Id;
 	}
 	
 	public String getFirstName() {

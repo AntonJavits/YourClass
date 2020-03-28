@@ -8,6 +8,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface AttendeeRepository extends CrudRepository<Attendee, Long> {
-	// http://localhost:8080/api/attendees/search/findByClassRecordId?classRecord=15
-	List<Attendee> findByClassRecordId(@Param("classRecord") Long id);
+	// http://localhost:8080/api/attendees/search/findByClassRecordClassRecordId?classRecordId=15
+	List<Attendee> findByClassRecordClassRecordId(@Param("classRecordId") Long id);
 }

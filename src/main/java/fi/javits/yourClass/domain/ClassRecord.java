@@ -10,20 +10,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "classRecord")
+//@SecondaryTable(name = "attendee")
 public class ClassRecord {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	@Column(updatable = false, nullable = false)
+	private long classRecordId;
 	private String name;
-//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy", timezone = "UTC")
-//	@Temporal(TemporalType.DATE)
 	@Column(columnDefinition = "DATETIME")
 	private LocalDateTime startDateTime;
-//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss", timezone = "UTC")
-//	@Temporal(TemporalType.TIME)
 //	private Date startTime;
 	private int duration;
 
@@ -31,6 +34,9 @@ public class ClassRecord {
 	@JsonIgnore
 	@JoinColumn(name = "teacher")
 	private Teacher teacher;
+	
+//	@Column(name = "attendee_count", table = "attendee")
+//    private int attendeeCount;
 
 	public ClassRecord() {}
 
@@ -69,6 +75,13 @@ public class ClassRecord {
 	public int getDuration() {
 		return duration;
 	}
+	public Long getClassRecordId() {
+		return classRecordId;
+	}
+
+	public void setClassRecordId(Long classRecordId) {
+		this.classRecordId = classRecordId;
+	}
 
 	public void setDuration(int duration) {
 		this.duration = duration;
@@ -78,6 +91,10 @@ public class ClassRecord {
 		return teacher;
 	}
 
+	public String getTeacherFullName() {
+		return (teacher.getFirstName() + " " + teacher.getLastName());
+	}
+	
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	}

@@ -1,6 +1,7 @@
 package fi.javits.yourClass.domain;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,12 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+
+
 
 @Entity
 public class Customer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long customerId;
+	// Or private UUID customerId
+	private Long Id;
 	private String firstName, lastName, tel, email;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "customer")
@@ -33,11 +40,11 @@ public class Customer {
 	}
 	
 	public Long getCustomerId() {
-		return customerId;
+		return Id;
 	}
 	
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setCustomerId(Long Id) {
+		this.Id = Id;
 	}
 	
 	public String getFirstName() {
@@ -70,5 +77,7 @@ public class Customer {
 	public void setAttendees(List<Attendee> attendees) {
 		this.attendees = attendees;
 	}
+
+
 
 }

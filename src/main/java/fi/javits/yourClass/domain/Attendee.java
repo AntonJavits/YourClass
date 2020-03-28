@@ -58,6 +58,9 @@ public class Attendee {
 	public ClassRecord getClassRecord() {
 		return classRecord;
 	}
+	public String getClassRecordName() {
+		return classRecord.getName();
+	}
 
 	public void setClassRecord(ClassRecord classRecord) {
 		this.classRecord = classRecord;
