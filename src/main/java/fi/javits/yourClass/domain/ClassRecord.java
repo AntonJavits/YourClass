@@ -18,11 +18,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "classRecord")
-//@SecondaryTable(name = "attendee")
+
 public class ClassRecord {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(updatable = false, nullable = false)
 	private long classRecordId;
 	private String name;
 	@Column(columnDefinition = "DATETIME")
@@ -31,8 +30,7 @@ public class ClassRecord {
 	private int duration;
 
 	@ManyToOne (fetch = FetchType.EAGER) // LAZY didn't work
-	@JsonIgnore
-	@JoinColumn(name = "teacher")
+	@JoinColumn(name = "teacher_id")
 	private Teacher teacher;
 	
 //	@Column(name = "attendee_count", table = "attendee")
@@ -40,12 +38,12 @@ public class ClassRecord {
 
 	public ClassRecord() {}
 
-	public ClassRecord(String name, LocalDateTime startDateTime, int duration, Teacher teacher) {
+	public ClassRecord(String name, LocalDateTime startDateTime, int duration) {
 		super();
 		this.name = name;
 		this.startDateTime = startDateTime;
 		this.duration = duration;
-		this.teacher = teacher;
+//		this.teacher = teacher;
 	}
 
 	public String getName() {
@@ -93,6 +91,10 @@ public class ClassRecord {
 
 	public String getTeacherFullName() {
 		return (teacher.getFirstName() + " " + teacher.getLastName());
+	}
+	
+	public Long getId() {
+		return teacher.getId();
 	}
 	
 	public void setTeacher(Teacher teacher) {

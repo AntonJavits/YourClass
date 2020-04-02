@@ -3,6 +3,7 @@ package fi.javits.yourClass.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,18 +13,19 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "teacher")
 public class Teacher {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="teacher_id")
 	private Long Id;
 	private String firstName, lastName, tel, email;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="teacher")
-//	@PrimaryKeyJoinColumn(name = "class_record_id")
-	@JsonBackReference
+	@JsonIgnore
 	private List<ClassRecord> classRecords;	
 	
 	public Teacher() {}
@@ -36,11 +38,11 @@ public class Teacher {
 		this.email = email;
 	}
 
-	public Long getTeacherId() {
+	public Long getId() {
 		return Id;
 	}
 
-	public void setTeacherId(Long Id) {
+	public void setId(Long Id) {
 		this.Id = Id;
 	}
 	
@@ -71,6 +73,7 @@ public class Teacher {
 	public String getEmail() {
 		return email;
 	}
+	
 	
 	public void setEmail(String email) {
 		this.email = email;

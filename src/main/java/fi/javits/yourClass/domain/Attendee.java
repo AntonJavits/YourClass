@@ -19,21 +19,19 @@ public class Attendee {
 	private int paymentAmmount;
 	
 	@ManyToOne (fetch = FetchType.EAGER)
-	@JsonIgnore
+
 	@JoinColumn(name = "classrecord")
 	private ClassRecord classRecord;
 	
 	@ManyToOne (fetch = FetchType.EAGER)
-	@JsonIgnore
+	
 	@JoinColumn(name = "customer")
 	private Customer customer;
 	
 	public Attendee() {}
 
-	public Attendee(Customer customer, ClassRecord classRecord, String paymentMethod, int paymentAmmount) {
+	public Attendee(String paymentMethod, int paymentAmmount) {
 		super();
-		this.customer = customer;
-		this.classRecord = classRecord;
 		this.paymentMethod = paymentMethod;
 		this.paymentAmmount = paymentAmmount;
 		
@@ -60,6 +58,13 @@ public class Attendee {
 	}
 	public String getClassRecordName() {
 		return classRecord.getName();
+	}
+	public String getCustomerFullName() {
+		return customer.getFirstName() + " " + customer.getLastName();
+	}
+	
+	public Long getCustomerId() {
+		return customer.getCustomerId();
 	}
 
 	public void setClassRecord(ClassRecord classRecord) {
