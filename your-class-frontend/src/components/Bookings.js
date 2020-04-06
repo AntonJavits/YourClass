@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row } from 'react-bootstrap';
-import { Calendar, Views, Navigate, momentLocalizer } from 'react-big-calendar'
+import { Container, Row, Col } from 'react-bootstrap';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import { Calendar, Views, Navigate, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
-
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-
+import Swal from 'sweetalert2'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -15,40 +16,41 @@ import moment from 'moment';
 import Moment from 'react-moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { Trash, PersonPlus } from 'react-bootstrap-icons';
+import { Trash, PersonPlus, ChevronDown, CheckCircle } from 'react-bootstrap-icons';
 import '../App.css';
 
 export default function Bookings() {
 
   const localizer = momentLocalizer(moment);
+      console.log(new Date());
 
-  let date1 = new Date();
-  console.log("first date:" + date1);
+  // State of values for select (customers)
+  const [stateCustomers, setStateCustomers] = React.useState([]);
 
-  const dateToFormat = '1976-04-19T12:59-0500';
-        
+  // State of values for select (classes)
+  const [stateClassRecords, setStateClassRecords] = React.useState([]);
 
-  // State of values for select
-  const [stateTeachers, setStateTeachers] = React.useState([]);
+  // State of values in table (attendees)
+  const [stateAttendees, setStateAttendees] = React.useState([]);
 
-  // State of values in table
-  const [stateClassRecords, setState] = React.useState([]);
+  useEffect( () => fetchDataCustomers(), []);
+  useEffect( () => fetchDataClassRecords(), []);
+  useEffect( () => fetchDataAttendees(), []);
 
-  useEffect( () => fetchDataTeachers(), []);
-  useEffect( () => fetchData(), []);
+  const [newAttendeeRecord, setAttendeeRecord] = React.useState({
+    'bookingDateTime': (new Date()).toISOString().split('.')[0],
+    'customer':'',
+    'classRecord':'',
+    'paymentMethod':'Credit Card',
+    'paymentAmmount':'14'}); 
 
-
-
-  const [newClassRecord, setClassRecord] = React.useState({'name':'','startDateTime':'','duration':'', 'teacher':''}); 
-  
   function checkIsValid(obj) {
     for (var key in obj) {
         if (obj[key] === null || obj[key] === "")
             return false;
     }
     return true;
-}
-console.log("Validate:" + checkIsValid(newClassRecord));
+  }
 
   function headerFormatter(column, colIndex, { sortElement, filterElement }) {
     return (
@@ -59,44 +61,51 @@ console.log("Validate:" + checkIsValid(newClassRecord));
     );
   } 
 
- 
-
-  const fetchDataTeachers = () => {
-    console.log("start fetch teachers");
-    fetch('http://localhost:8080/api/teachers') 
+  const fetchDataAttendees = () => {
+    fetch('http://localhost:8080/api/attendees') 
     .then(response => response.json())
     .then(data => { 
-        setStateTeachers(data.content);
+        setStateAttendees(data.content);
     } )
     .catch(err => console.log(err))
   };
 
-  const fetchData = () => {
-    console.log("start fetch");
+  const fetchDataCustomers = () => {
+    fetch('http://localhost:8080/api/customers')
+    .then(response => response.json())
+    .then(data => { 
+        setStateCustomers(data.content);
+    } )
+    .catch(err => console.log(err))
+  };
+  const fetchDataClassRecords = () => {
     fetch('http://localhost:8080/api/classRecords')
     .then(response => response.json())
     .then(data => { 
-        setState(data.content);
-        console.log(data);
-        console.log("DATETIME"); 
-        console.log(data.content[0].startDateTime);
-        console.log("DATETIME2"); 
-        console.log(stateClassRecords);  
+        setStateClassRecords(data.content);
     } )
     .catch(err => console.log(err))
   };
   
-
-
-  const deleteClassRecord = (link) => {
-    if (window.confirm('Are you sure?')) {
+  const deleteAttendee = (link) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete!'
+    }).then((result) => {
+      if (result.value) {
         fetch(link, {method: 'DELETE'})
-        .then(res => fetchData())
+        .then(res => fetchDataAttendees())
         .catch(err => console.error(err))
-    }
+      }
+    })
   };
-const updateClassRecord = (row) => {
-  console.log("Start update (put)");
+
+  const updateAttendee = (row) => {
   fetch(row.links[0].href, {
       method: 'PUT',
       headers: {
@@ -104,56 +113,83 @@ const updateClassRecord = (row) => {
       },
       body: JSON.stringify(row)
   })
-  .then(res => fetchData())
+  .then(res => fetchDataAttendees())
 }
 
 // Input change in edit form fields
-const handleInputChangeSelect = (link) => {
+const handleInputChangeSelectCustomer = (link) => {
   if (link !== null) {
-  setClassRecord({...newClassRecord, 'teacher': link.links[0].href});
+  setAttendeeRecord({...newAttendeeRecord, 'customer': link.links[0].href});
+  console.log("Customer selected: " + link.links[0].href);
   } else {
-    setClassRecord({...newClassRecord, 'teacher': ''});
+    setAttendeeRecord({...newAttendeeRecord, 'customer': ''});
   }
 }
-const handleInputChange = (event) => {
-  setClassRecord({...newClassRecord, [event.target.name]: event.target.value});
+const handleInputChangeSelectClass = (link) => {
+  if (link !== null) {
+  setAttendeeRecord({...newAttendeeRecord, 'classRecord': link.links[0].href});
+  console.log("Class selected: " + link.links[0].href);
+  } else {
+    setAttendeeRecord({...newAttendeeRecord, 'attendee': ''});
+  }
 }
 
-const addClassRecord = () => {
-  if ( checkIsValid(newClassRecord) ) {
-  fetch('http://localhost:8080/api/classRecords', {
+/* To use with payment info fields 
+  const handleInputChange = (event) => {
+  setAttendeeRecord({...newAttendeeRecord, [event.target.name]: event.target.value});
+} */
+
+const addAttendeeRecord = () => {
+  if ( checkIsValid(newAttendeeRecord) ) {
+  fetch('http://localhost:8080/api/attendees', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newClassRecord)
+      body: JSON.stringify(newAttendeeRecord)
   })
-  .then(res => fetchData())
+  .then(res => fetchDataAttendees())
   .catch(err => console.log(err))
   } else {
-    console.log("All fields are required to fill!");
+    Swal.fire({         
+      icon: 'error',
+      title: "Can't add new booking!",
+      text: 'Check that fields customer and class are not empty.'       
+    })
   }
 };
 
   const columns = [{
-    dataField: 'name', 
-    text: 'Class name',
-    hidden: false
-    }, {
-    dataField: 'startDateTime',
-    text: 'Date and time',
-    headerFormatter: headerFormatter,
-    filter: textFilter(),
+    dataField: 'bookingDate', 
+    text: 'Date',
+    headerClasses: 'dateColHeader',
+    hidden: false,
     sort: true
     }, {
-    dataField: 'teacherFullName',
-    text: 'Teacher',
+    dataField: 'customerFullName',
+    text: 'Customer',
     headerFormatter: headerFormatter,
     filter: textFilter(),
+    editable: false,
     sort: true
     }, {
-    dataField: 'duration',
-    text: 'Duration',
+    dataField: 'classRecordInfo',
+    text: 'Class',
+    headerFormatter: headerFormatter,
+    headerClasses: 'classColHeader',
+    filter: textFilter(),
+    editable: false,
+    sort: true
+    }, {
+    dataField: 'paymentMethod',
+    text: 'Payment Method',
+    classes: 'editableCol',
+    sort: true
+    }, {
+    dataField: 'paymentAmmount',
+    text: 'Price',
+    headerClasses: 'priceColHeader',
+    classes: 'editableCol',
     sort: true
     }, {
     dataField: 'links[0].href',
@@ -164,11 +200,13 @@ const addClassRecord = () => {
     align: (cell, row, rowIndex, colIndex) => {
       return 'right';
     },
+
+    
     formatter: (cell, row) => {
       if (row)
         return (
           
-            <button className="btn btn-circle" aria-label="delete" onClick={() => {deleteClassRecord(row.links[0].href)}} >
+            <button className="btn btn-circle" aria-label="delete" onClick={() => {deleteAttendee(row.links[0].href)}} >
                 <Trash fontSize="inherit" className="DeleteIcon" />
             </button>
         );
@@ -176,99 +214,107 @@ const addClassRecord = () => {
         }
       }
     ];
-   
+
+    
   return (
     <>
 
-    <Container fluid-lg className="BodyContainer">
-    <div className="SectionHeader">
-                <h1 className="SectionHeaderTitle">Manage Classes</h1>
-        </div>
-      <Row className="AddFormContainer">
-      <div className="FieldsContainer">
-      <form className="EditForm" noValidate autoComplete="off">
-                <TextField
-                        autoFocus
-                        margin="normal"
-                        variant="outlined"
-                        name="name"
-                        value={newClassRecord.name} 
-                        label="Class name"
-                        onChange = {e => handleInputChange(e) }
-                    />
-                     <TextField
-                        margin="startDateTime"
-                        variant="outlined"
-                        name="startDateTime"
-                        value={newClassRecord.startDateTime} 
-                        label="StartDateTime"
-                        onChange = {e => handleInputChange(e) }
-                    />
-                     <TextField
-                        margin="normal"
-                        variant="outlined"
-                        name="duration"
-                        value={newClassRecord.duration} 
-                        label="Duration"
-                        onChange = {e => handleInputChange(e) }
-                    />
-                     <Autocomplete
-                        id="select"
-                        options={stateTeachers}
-                        getOptionLabel={(option) => (option.firstName + " " + option.lastName)}
-                        onChange={(event, value) => handleInputChangeSelect(value)}
-                        style={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Teacher" variant="outlined" />}
-                        />
-                        <Button onClick={addClassRecord}
-                        color="primary" variant="contained" size="large"
-                        className="FormButton"
-                        startIcon={<PersonPlus />}>
-                            Add Customer
-                        </Button>   
-                  </form>   
-                </div>
+    <Container fluid={"xl"} className="BodyContainer">
+      <Row>
+        <Col className="SectionHeader">
+          <h1 className="SectionHeaderTitle">Manage Bookings</h1>
+        </Col>
       </Row>
+      <Row>
+        <Col md={12} className="AddFormContainer">
+          <form className="EditForm" noValidate autoComplete="off">
 
-    
-      <Row className="TableContainer">
+{/*           // Save payment information   
+              <TextField
+                margin="paymentMethod"
+                variant="filled"
+                name="startDateTime"
+                value={newAttendeeRecord.paymentMethod} 
+                label="StartDateTime"
+                onChange = {e => handleInputChange(e) }
+              />
+              <TextField
+                margin="normal"
+                variant="filled"
+                name="Ammount"
+                value={newAttendeeRecord.paymentAmmount} 
+                label="Duration"
+                onChange = {e => handleInputChange(e) }
+              /> */}
+              <Autocomplete
+                id="selectCustomer"
+                options={stateCustomers}
+                getOptionLabel={(option) => (option.firstName + " " + option.lastName)}
+                onChange={(event, value) => handleInputChangeSelectCustomer(value)}
+                style={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Customer:" variant="filled" />}
+              />
+              <Autocomplete
+                id="selectClass"
+                options={stateClassRecords}
+                getOptionLabel={(option) => (option.classRecordInfo)}
+                onChange={(event, value) => handleInputChangeSelectClass(value)}
+                style={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Attending class:" variant="filled" />}
+              />
+
+              <div className="ButtonContainer">
+              <Button onClick={addAttendeeRecord}
+                color="primary" variant="contained" size="large"
+                className="FormButton"
+                startIcon={<CheckCircle className="WhiteIcon"/>}>
+                    Book class
+              </Button> 
+              </div>  
+          </form>   
+        </Col>
+
+        <Col className="CalendarCol">
+        
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ChevronDown />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              Calendar
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              
+              <Calendar
+              localizer={localizer}
+              events={stateClassRecords}
+              titleAccessor="name"
+              startAccessor="startDateTime"
+              endAccessor="endDateTime"
+              defaultView={Views.month}
+              views={{ month: true, week: true, day: true }}
+              defaultDate={new Date(2020, 2, 1)}
+            />
+              
+           </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </Col>
+        <Col md={12} className="TableContainer">
           <BootstrapTable keyField='links[0].href'
-            data={ stateClassRecords } columns={ columns }  // data stateCustomers
+            data={ stateAttendees } columns={ columns }  
             headerClasses="header-class"  bootstrap4 striped hover
             filter={ filterFactory() } bordered={ false } 
-            
             cellEdit={ cellEditFactory({
-                mode: 'click',
-                blurToSave: true,
-                afterSaveCell: (oldValue, newValue, row, column) => { updateClassRecord(row); }
-            }) }
+              mode: 'click',
+              blurToSave: true,
+              afterSaveCell: (oldValue, newValue, row, column) => { updateAttendee(row); }
+          }) }
+
           />
-      
-      </Row>
-      <Row className="CalendarRow">
-      <Calendar
-        localizer={localizer}
-        events={stateClassRecords}
-        titleAccessor="name"
-        startAccessor="startDateTime"
-       
-        defaultView={Views.month}
-        views={{ month: true, week: true, day: true }}
-
-        defaultDate={new Date(2020, 2, 1)}
-
-        
-
-      />
-
+        </Col>
 
       </Row>
-      <Moment>{date1}</Moment>
-      <br/>
-      <Moment date={dateToFormat} />
-      <br/>
-      <Moment add={{ hours: 1 }}>{dateToFormat}</Moment>
-
     </Container>
      </>
   );

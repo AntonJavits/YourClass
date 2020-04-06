@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from './Navigation';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import cellEditFactory from 'react-bootstrap-table2-editor';
+import Swal from 'sweetalert2'
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -23,6 +24,14 @@ export default function Customers() {
   const [newCustomer, setCustomer] = React.useState({'firstName':'','lastName':'','tel':'','email':''}); 
   
   useEffect( () => fetchData(), []);
+
+  function checkIsValid(obj) {
+    for (var key in obj) {
+        if (obj[key] === null || obj[key] === "")
+            return false;
+    }
+    return true;
+  }
 
   function headerFormatter(column, colIndex, { sortElement, filterElement }) {
     return (
@@ -46,11 +55,22 @@ export default function Customers() {
     .catch(err => console.log(err))
   };
   const deleteCustomer = (link) => {
-    if (window.confirm('Are you sure?')) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete!'
+    }).then((result) => {
+      if (result.value) {
+    
         fetch(link, {method: 'DELETE'})
         .then(res => fetchData())
         .catch(err => console.error(err))
-    }
+      }
+    })
   };
 const updateCustomer = (row) => {
   console.log("Start update (put)");
@@ -73,6 +93,7 @@ const handleInputChange = (event) => {
 }
 
 const addCustomer = () => {
+  if ( checkIsValid(newCustomer) ) {
   fetch('http://localhost:8080/api/customers', {
       method: 'POST',
       headers: {
@@ -82,6 +103,13 @@ const addCustomer = () => {
   })
   .then(res => fetchData())
   .catch(err => console.log(err))
+  } else {
+    Swal.fire({         
+      icon: 'error',
+      title: "Can't add new booking!",
+      text: 'Check that all fields are filled.'       
+    })
+  }
 };
 
   const columns = [{
@@ -92,23 +120,26 @@ const addCustomer = () => {
     dataField: 'firstName',
     text: 'First name',
     headerFormatter: headerFormatter,
+    classes: 'editableCol',
     filter: textFilter(),
     sort: true
     }, {
     dataField: 'lastName',
     text: 'Last name',
     headerFormatter: headerFormatter,
+    classes: 'editableCol',
     filter: textFilter(),
     sort: true
     }, {
     dataField: 'tel',
     text: 'Tel. number',
+    classes: 'editableCol',
     sort: true
     }, {
     dataField: 'email',
     text: 'Email',
     headerClasses: 'emailColHeader',
-    classes: 'emailCol',
+    classes: 'editableCol',
     sort: true
     }, {
     dataField: 'links[0].href',
@@ -117,7 +148,7 @@ const addCustomer = () => {
     classes: 'deleteCol',
     editable: false,
     align: (cell, row, rowIndex, colIndex) => {
-      return 'right';
+      return 'center';
     },
     formatter: (cell, row) => {
       if (row)
@@ -136,17 +167,19 @@ const addCustomer = () => {
   return (
     <>
   
-    <Container fluid-lg className="BodyContainer">
-    <div className="SectionHeader">
-                <h1 className="SectionHeaderTitle">Manage Customers</h1>
-        </div>
-      <Row className="AddFormContainer">
-      <div className="FieldsContainer">
-      <form className="EditForm" noValidate autoComplete="off">
+  <Container fluid={"xl"} className="BodyContainer">
+      <Row>
+        <Col className="SectionHeader">
+          <h1 className="SectionHeaderTitle">Manage Customers</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} className="AddFormContainer">
+          <form className="EditForm" noValidate autoComplete="off">
                 <TextField
                         autoFocus
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="firstName"
                         value={newCustomer.firstName} 
                         label="First Name"
@@ -154,7 +187,7 @@ const addCustomer = () => {
                     />
                      <TextField
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="lastName"
                         value={newCustomer.lastName} 
                         label="Last Name"
@@ -162,36 +195,39 @@ const addCustomer = () => {
                     />
                      <TextField
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="tel"
+                        type="number"
                         value={newCustomer.tel} 
                         label="Tel. number"
                         onChange = {e => handleInputChange(e) }
                     />
                      <TextField
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="email"
                         value={newCustomer.email} 
                         label="Email"
                         onChange = {e => handleInputChange(e) }
                     />
+                        <div className="ButtonContainer">
                         <Button onClick={addCustomer}
                         color="primary" variant="contained" size="large"
                         className="FormButton"
                         startIcon={<PersonPlus />}>
                             Add Customer
-                        </Button>   
+                        </Button>
+                         </div>  
                   </form>   
-                </div>
+                </Col>
       </Row>
 
     
       <Row className="TableContainer">
           <BootstrapTable keyField='links[0].href'
             data={ stateCustomers } columns={ columns }  // data stateCustomers
-            headerClasses="header-class"  bootstrap4 striped hover
-            filter={ filterFactory() } bordered={ true } 
+            headerClasses="header-class"  bootstrap4 striped hover condensed
+            filter={ filterFactory() } bordered={ false } 
             
             cellEdit={ cellEditFactory({
                 mode: 'click',

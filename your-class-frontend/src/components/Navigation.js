@@ -18,23 +18,15 @@ export default function Navigation() {
             
             <Nav className="mr-auto">
                     <NavLink to="/bookings" activeClassName="active">Bookings</NavLink>
+                   
                     <NavLink  to="/customers" activeClassName="active">Customers</NavLink>
              
                     <NavLink  to="/classes" activeClassName="active">Classes</NavLink>
                
                     <NavLink  to="/teachers" activeClassName="active">Teachers</NavLink>
+
+                    <NavLink  to="/reports" activeClassName="active">Reports</NavLink>
                
-                
-                
-                
-                
-                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown>
                 </Nav>
                 
             </Navbar.Collapse>

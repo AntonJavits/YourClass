@@ -3,15 +3,22 @@ body {
   background: #f5f5f5;
 }
 
-.react-bootstrap-table table,
+
 .AddFormContainer,
-.navbar {
+.TableContainer,
+.CalendarContainer,
+body .MuiPaper-elevation1 {
+  
+
   background: #fff;
-  -webkit-box-shadow: 0px 0px 4px 0px rgb(0, 0, 0, 0.2);
--moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 0px 11px 0px rgb(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.15);
 
 
+  border-radius: 3px;
+
+  margin-bottom: 1.5rem;
 }
 
 
@@ -19,39 +26,41 @@ box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
 /*  border-bottom: 1px solid #dee2e6; */
   padding: 0;
   background: #0c7eaf;  
+  background: #C9D6FF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-bottom: 1px solid  rgb(221, 221, 221); 
+background: #f5f5f5;
+background: rgb(0,143,162);
+background: linear-gradient(77deg, rgba(0,143,162,1) 0%, rgba(0,168,190,1) 100%);
   
-background: #C9D6FF;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to left, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to left, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-background: #fff;;
-  
 }
 
 .navbar-brand {
   font-size: 1.5rem;
   line-height: 2rem;
   padding: 0.9rem 2rem 1.1rem 3.2rem;
-
- 
+  color: orange !important;
 }
+
 .navbar-nav a {
   color: #282c34;
+  color: #fff;
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 2.8rem;
   padding: 0.9rem 1.2rem 1.1rem 1.2rem;
   text-transform: uppercase;
- /* color: orange; */
 }
+
 .navbar-nav a:hover {
   text-decoration: none;
 }
 
-
 body .navbar-nav .active {
   font-weight: bold;
-  border-top: 0.3rem solid #dee2e6;
+  border-top: 3px solid orange;
   padding: 0.6rem 1.2rem 1.1rem 1.2rem;
 }
 
@@ -61,58 +70,123 @@ body .navbar-nav .active {
 
 .SectionHeaderTitle {
   margin-bottom: 2rem;
+  margin-left: 0.7rem;
 }
 
 .AddFormContainer {
-  /*
-  background: rgb(46,117,195);
-  background: linear-gradient(77deg, rgba(46,117,195,1) 0%, rgba(118,213,255,1) 100%);
-*/
-  
-background: #74ebd5;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-background: #C9D6FF;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to left, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to left, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
--webkit-box-shadow: 0px 0px 4px 0px rgb(0, 0, 0, 0.2);
--moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
-
-background: #fff;
-
-
-  padding: 2rem 0.5rem 1.8rem;
+  padding: 1.2rem 0.5rem 1.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.5rem;
+  border-left: 4px solid orange;
+
+  /* Green linear-gradient(77deg, rgba(32,221,184,1) 0%, rgba(32,221,203,1) 100%) */
+  background: rgb(0,143,162);
+  background: linear-gradient(77deg, rgba(0,143,162,1) 0%, rgba(0,168,190,1) 100%);
+  background: #fff;
+}
+
+.EditForm {
+    width: 100%;
+    margin: 0.2rem 0.9rem;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+        .MuiIcon-colorSecondary {
+          color: #fff;
+        }
+        .ButtonContainer {
+          display: block;
+          margin: 0.5rem 0.5rem 0.5rem;
+          margin-left: auto;
+        }
+        .EditForm .FormButton {
+          box-shadow: none;
+          white-space: nowrap;
+          padding: 1rem;
+          background-color: rgba(0,143,162,1);
+        }
+        .EditForm .FormButton:hover {
+          background-color: rgb(0, 129, 146);
+        }
+        .NarrowInput {
+          width: 6rem;
+        }
+
+        form .MuiTextField-root {
+          margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+          background: #fff;
+          -webkit-order: 0;
+          -ms-flex-order: 0;
+          order: 0;
+          -webkit-flex: 0 1 auto;
+          -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+          -webkit-align-self: auto;
+          -ms-flex-item-align: auto;
+          align-self: auto;
+        }
+        .MuiAutocomplete-root {
+          margin-right: 1rem;
+        }
+        .EditForm .MuiFilledInput-root, .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot[class*="MuiFilledInput-root"] {
+          background-color: #fff;
+        }
+
+.MuiExpansionPanel-root, .MuiExpansionPanelSummary-root {
+  background: rgb(0,143,162);
+  background: linear-gradient(77deg, rgba(0,143,162,1) 0%, rgba(0,168,190,1) 100%);
+}
+.CalendarCol {
+  padding: 0;
+}
+.MuiExpansionPanelSummary-content {
+  padding: 0.4rem 0.4rem 0.5rem 0.4rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+.MuiExpansionPanelDetails-root .MuiIconButton-label {
+  color: #fff !important;
+}
+body .MuiExpansionPanelDetails-root {
+  height: 600px;
+  padding: 1.5rem 1.8rem 1.5rem 1.8rem;
   margin-bottom: 1.5rem;
 
-/*   border: 1px solid #dee2e6; */
-
-  border-radius: 3px;
-}
-.MuiButton-contained {
-  color: rgba(0, 0, 0, 0.87);
-  box-shadow: none;
-  background-color: #e0e0e0;
-}
-.EditForm .FormButton {
-  margin: 0.5rem 0.5rem 0.5rem;
-  padding: 0.95rem 2rem;
-  box-shadow: none;
 }
 
-.EditForm .MuiTextField-root {
-  margin: 0.5rem 0.5rem 0.5rem;
-  background: #fff;
-  border-radius: 5px;
+.MuiCollapse-wrapper {
+  margin-bottom: 1.5rem;
+
 }
-.react-bootstrap-table table {
-  border-radius: 3px;
+.CalendarContainer {
+  height: 600px;
+}
+
+.rbc-calendar {
+    height: 600px;
+    width: 100%;
+    background: #fff;
+}
+.TableContainer {
+  padding: 0;
 }
 .react-bootstrap-table .table thead th {
   vertical-align: bottom;
@@ -123,26 +197,43 @@ background: #fff;
   vertical-align: middle;
   border-top: none; /* #dee2e6; */
 }
-.react-bootstrap-table table th:first-child, .react-bootstrap-table td:first-child { padding-left: 38px; }
-
+.react-bootstrap-table table th:first-child, .react-bootstrap-table td:first-child {
+  padding-left: 38px;
+}
 
 .react-bootstrap-table .table-striped tbody tr:nth-of-type(odd) {
   background-color: rgba(0,0,0,.01);
+}
+.react-bootstrap-table .table-striped tbody tr:hover {
+  background-color: rgba(0,0,0,.05);
 }
 .react-bootstrap-table td {
   font-size: 1.2em;
   height: 70px;
   color: #444444;
-  
 }
-.react-bootstrap-table td:hover {
+
+.react-bootstrap-table .editableCol {
   text-decoration: underline;
-  text-decoration-style: dotted;
-  text-decoration-color: red;
+  text-decoration-style: dashed;
+  text-decoration-color:#b8b8b8;
   text-decoration-skip: none; 
+  -webkit-text-underline-position: under;
+  -ms-text-underline-position: below;
+  text-underline-position: under;
+}
+body .react-bootstrap-table .react-bootstrap-table-editing-cell input {
+  text-decoration: none !important;
+}
+
+.dateColHeader, .priceColHeader {
+  width:  120px;
 }
 .deleteColHeader, .deleteCol {
   width:  60px;
+}
+.classColHeader {
+  width:  380px;
 }
 .emailColHeader, .emailCol {
   width:  400px;
@@ -160,54 +251,19 @@ background: #fff;
   text-align: center;
   font-size: 24px;
   line-height: 1.42857;
-background: none transparent;
-color: red;
-float: right;
+  background: none transparent;
+  color: red;
+  float: right;
 }
 .DeleteIcon {
   color: red;
   margin-bottom: 15px;
 }
 
-.CalendarRow {
-  height: 500px;
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 0.3rem 0.9rem 0;
 }
 
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

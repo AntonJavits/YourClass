@@ -1,6 +1,7 @@
 package fi.javits.yourClass.domain;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,6 +57,19 @@ public class ClassRecord {
 
 	public LocalDateTime getStartDateTime() {
 		return startDateTime;
+	}
+	
+	public String getStartDateTimePretty() {
+		return DateTimeFormatter.ofPattern("d.M.' at 'k:mm").format(startDateTime); 
+	}
+	
+
+	public LocalDateTime getEndDateTime() {
+		return startDateTime.plusMinutes(duration);
+	}
+	
+	public String getClassRecordInfo() {
+		return name + ", " + DateTimeFormatter.ofPattern("d.M.' at 'k:mm").format(startDateTime); 
 	}
 
 	public void setStartDateTime(LocalDateTime startDateTime) {

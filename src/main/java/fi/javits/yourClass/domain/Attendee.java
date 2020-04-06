@@ -1,5 +1,8 @@
 package fi.javits.yourClass.domain;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,7 @@ public class Attendee {
 	private long attendeeId;
 	private String paymentMethod;
 	private int paymentAmmount;
+	private LocalDateTime bookingDateTime;
 	
 	@ManyToOne (fetch = FetchType.EAGER)
 
@@ -30,10 +34,11 @@ public class Attendee {
 	
 	public Attendee() {}
 
-	public Attendee(String paymentMethod, int paymentAmmount) {
+	public Attendee(String paymentMethod, int paymentAmmount, LocalDateTime bookingDateTime) {
 		super();
 		this.paymentMethod = paymentMethod;
 		this.paymentAmmount = paymentAmmount;
+		this.bookingDateTime = bookingDateTime;
 		
 	}
 
@@ -53,12 +58,26 @@ public class Attendee {
 		this.paymentAmmount = paymentAmmount;
 	}
 
-	public ClassRecord getClassRecord() {
-		return classRecord;
+	public String getClassRecordInfo() {
+		return classRecord.getClassRecordInfo();
 	}
+	
+	public LocalDateTime getBookingDateTime() {
+		return bookingDateTime;
+	}
+	
+	public String getBookingDate() {
+		return DateTimeFormatter.ofPattern("d.M.").format(bookingDateTime);
+	}
+	
+	public void setBookingDateTime(LocalDateTime bookingDateTime) {
+		this.bookingDateTime = bookingDateTime;
+	}
+	
 	public String getClassRecordName() {
 		return classRecord.getName();
 	}
+	
 	public String getCustomerFullName() {
 		return customer.getFirstName() + " " + customer.getLastName();
 	}

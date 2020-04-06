@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from './Navigation';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
@@ -9,12 +9,17 @@ import cellEditFactory from 'react-bootstrap-table2-editor';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import Swal from 'sweetalert2'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { Trash, PersonPlus } from 'react-bootstrap-icons';
+
 import '../App.css';
 
 export default function Teachers() {
+
+
 
   // State of values in table
   const [stateCustomers, setState] = React.useState([]);
@@ -45,12 +50,37 @@ export default function Teachers() {
     } )
     .catch(err => console.log(err))
   };
-  const deleteCustomer = (link) => {
-    if (window.confirm('Are you sure?')) {
-        fetch(link, {method: 'DELETE'})
-        .then(res => fetchData())
-        .catch(err => console.error(err))
-    }
+  const deleteTeacher = (link) => {
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete!'
+    }).then((result) => {
+      if (result.value) {
+
+              fetch(link, {method: 'DELETE'})
+              .then(res => {
+                if(res.status===409){   // https://github.com/sweetalert2/sweetalert2-react-content
+                  Swal.fire({         // https://sweetalert2.github.io/
+                    icon: 'error',
+                    title: "Can't delete this!",
+                    text: 'There are classes assosiated with this teacher, new teacher should be assigned first.'
+                              
+                  })
+                }
+                  fetchData();
+              })
+              .catch(err => {
+                console.error(err);   
+              })
+
+      }
+    })
   };
 const updateCustomer = (row) => {
   console.log("Start update (put)");
@@ -93,20 +123,25 @@ const addCustomer = () => {
     text: 'First name',
     headerFormatter: headerFormatter,
     filter: textFilter(),
+    classes: 'editableCol',
     sort: true
     }, {
     dataField: 'lastName',
     text: 'Last name',
     headerFormatter: headerFormatter,
     filter: textFilter(),
+    classes: 'editableCol',
     sort: true
     }, {
     dataField: 'tel',
     text: 'Tel. number',
+    classes: 'editableCol',
     sort: true
     }, {
     dataField: 'email',
     text: 'Email',
+    headerClasses: 'emailCol',
+    classes: 'editableCol emailCol',
     sort: true
     }, {
     dataField: 'links[0].href',
@@ -121,7 +156,7 @@ const addCustomer = () => {
       if (row)
         return (
           
-            <button className="btn btn-circle" aria-label="delete" onClick={() => {deleteCustomer(row.links[0].href)}} >
+            <button className="btn btn-circle" aria-label="delete" onClick={() => {deleteTeacher(row.links[0].href)}} >
                 <Trash fontSize="inherit" className="DeleteIcon" />
             </button>
         );
@@ -134,25 +169,28 @@ const addCustomer = () => {
   return (
     <>
 
-    <Container fluid-lg className="BodyContainer">
-    <div className="SectionHeader">
-                <h1 className="SectionHeaderTitle">Manage Teachers</h1>
-        </div>
-      <Row className="AddFormContainer">
-      <div className="FieldsContainer">
-      <form className="EditForm" noValidate autoComplete="off">
+<Container fluid={"xl"} className="BodyContainer">
+      <Row>
+        <Col className="SectionHeader">
+          <h1 className="SectionHeaderTitle">Manage teachers</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} className="AddFormContainer">
+          <form className="EditForm" noValidate autoComplete="off">
                 <TextField
                         autoFocus
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="firstName"
                         value={newCustomer.firstName} 
                         label="First Name"
+                        color="red"
                         onChange = {e => handleInputChange(e) }
                     />
                      <TextField
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="lastName"
                         value={newCustomer.lastName} 
                         label="Last Name"
@@ -160,7 +198,7 @@ const addCustomer = () => {
                     />
                      <TextField
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="tel"
                         value={newCustomer.tel} 
                         label="Tel. number"
@@ -168,20 +206,22 @@ const addCustomer = () => {
                     />
                      <TextField
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="email"
                         value={newCustomer.email} 
                         label="Email"
                         onChange = {e => handleInputChange(e) }
                     />
+                        <div className="ButtonContainer">
                         <Button onClick={addCustomer}
                         color="primary" variant="contained" size="large"
                         className="FormButton"
                         startIcon={<PersonPlus />}>
-                            Add Customer
-                        </Button>   
+                            Add Teacher
+                        </Button>  
+                        </div> 
                   </form>   
-                </div>
+                </Col>
       </Row>
 
     

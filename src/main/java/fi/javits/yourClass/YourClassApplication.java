@@ -87,22 +87,22 @@ public class YourClassApplication {
 			
 			// Add class records objects and save these to db
 			ClassRecord classRecord1 = new ClassRecord("Salsa Technique",
-					LocalDateTime.of(2020, 03, 25, 17, 00), 60);
+					LocalDateTime.of(2020, 03, 25, 17, 00, 00), 60);
 			classRecord1.setTeacher(teacher1);
 			classRecordRepository.save(classRecord1);
 			
 			ClassRecord classRecord2 = new ClassRecord("Couple Salsa 1",
-					LocalDateTime.of(2020, 03, 25, 18, 00), 60);
+					LocalDateTime.of(2020, 03, 25, 18, 00, 00), 60);
 			classRecord2.setTeacher(teacher1);
 			classRecordRepository.save(classRecord2);
 			
 			ClassRecord classRecord3 = new ClassRecord("Rumba 1",
-					LocalDateTime.of(2020, 03, 26, 17, 00), 60);
+					LocalDateTime.of(2020, 03, 26, 17, 00, 00), 60);
 			classRecord3.setTeacher(teacher2);
 			classRecordRepository.save(classRecord3);
 			
 			ClassRecord classRecord4 = new ClassRecord("Couple Bachata",
-					LocalDateTime.of(2020, 03, 26, 18, 00), 60);
+					LocalDateTime.of(2020, 03, 26, 18, 00, 00), 60);
 			classRecord4.setTeacher(teacher2);
 			classRecordRepository.save(classRecord4);
 			
@@ -112,128 +112,128 @@ public class YourClassApplication {
 			
 			// Customers 1-6 attending "Salsa Technique" at 17
 			
-			Attendee attendee1 = new Attendee("Credit Card", 14);
+			Attendee attendee1 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 17, 00));
 			attendee1.setCustomer(customer1);
 			attendee1.setClassRecord(classRecord1);
 			attendeeRepository.save(attendee1);
 		
-			Attendee attendee2 = new Attendee("Credit Card", 14);
+			Attendee attendee2 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 17, 00));
 			attendee2.setCustomer(customer2);
 			attendee2.setClassRecord(classRecord1);
 			attendeeRepository.save(attendee2);
 			
-			Attendee attendee3 = new Attendee("Credit Card", 14);
+			Attendee attendee3 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 17, 00));
 			attendee3.setCustomer(customer3);
 			attendee3.setClassRecord(classRecord1);
 			attendeeRepository.save(attendee3);
 			
-			Attendee attendee4 = new Attendee("Credit Card", 14);
+			Attendee attendee4 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 17, 00));
 			attendee4.setCustomer(customer4);
 			attendee4.setClassRecord(classRecord1);
 			attendeeRepository.save(attendee4);
 			
-			Attendee attendee5 = new Attendee("Credit Card", 14);
+			Attendee attendee5 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 17, 00));
 			attendee5.setCustomer(customer5);
 			attendee5.setClassRecord(classRecord1);
 			attendeeRepository.save(attendee5);
 			
-			Attendee attendee6 = new Attendee("Credit Card", 14);
+			Attendee attendee6 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 17, 00));
 			attendee6.setCustomer(customer6);
 			attendee6.setClassRecord(classRecord1);
 			attendeeRepository.save(attendee6);
 			
 			// Customers 1-6 attending "Couple Salsa" at 18
 			
-			Attendee attendee7 = new Attendee("Credit Card", 14);
+			Attendee attendee7 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 18, 00));
 			attendee7.setCustomer(customer1);
 			attendee7.setClassRecord(classRecord2);
 			attendeeRepository.save(attendee7);
 		
-			Attendee attendee8 = new Attendee("Credit Card", 14);
+			Attendee attendee8 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 18, 00));
 			attendee8.setCustomer(customer2);
 			attendee8.setClassRecord(classRecord2);
 			attendeeRepository.save(attendee8);
 			
-			Attendee attendee9 = new Attendee("Credit Card", 14);
+			Attendee attendee9 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 18, 00));
 			attendee9.setCustomer(customer3);
 			attendee9.setClassRecord(classRecord2);
 			attendeeRepository.save(attendee9);
 			
-			Attendee attendee10 = new Attendee("Credit Card", 14);
+			Attendee attendee10 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 18, 00));
 			attendee10.setCustomer(customer4);
 			attendee10.setClassRecord(classRecord2);
 			attendeeRepository.save(attendee10);
 			
-			Attendee attendee11 = new Attendee("Credit Card", 14);
+			Attendee attendee11 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 18, 00));
 			attendee11.setCustomer(customer5);
 			attendee11.setClassRecord(classRecord2);
 			attendeeRepository.save(attendee11);
 			
-			Attendee attendee12 = new Attendee("Credit Card", 14);
+			Attendee attendee12 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 25, 18, 00));
 			attendee12.setCustomer(customer6);
 			attendee12.setClassRecord(classRecord2);
 			attendeeRepository.save(attendee12);
 			
 			// Customers 7-12 attending "Rumba 1" at 17
 			
-			Attendee attendee13 = new Attendee("Credit Card", 14);
+			Attendee attendee13 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 17, 00));
 			attendee13.setCustomer(customer7);
 			attendee13.setClassRecord(classRecord3);
 			attendeeRepository.save(attendee13);
 		
-			Attendee attendee14 = new Attendee("Credit Card", 14);
+			Attendee attendee14 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 17, 00));
 			attendee14.setCustomer(customer8);
 			attendee14.setClassRecord(classRecord3);
 			attendeeRepository.save(attendee14);
 			
-			Attendee attendee15 = new Attendee("Credit Card", 14);
+			Attendee attendee15 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 17, 00));
 			attendee15.setCustomer(customer9);
 			attendee15.setClassRecord(classRecord3);
 			attendeeRepository.save(attendee15);
 			
-			Attendee attendee16 = new Attendee("Credit Card", 14);
+			Attendee attendee16 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 17, 00));
 			attendee16.setCustomer(customer10);
 			attendee16.setClassRecord(classRecord3);
 			attendeeRepository.save(attendee16);
 			
-			Attendee attendee17 = new Attendee("Credit Card", 14);
+			Attendee attendee17 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 17, 00));
 			attendee17.setCustomer(customer11);
 			attendee17.setClassRecord(classRecord3);
 			attendeeRepository.save(attendee17);
 			
-			Attendee attendee18 = new Attendee("Credit Card", 14);
+			Attendee attendee18 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 17, 00));
 			attendee18.setCustomer(customer12);
 			attendee18.setClassRecord(classRecord3);
 			attendeeRepository.save(attendee18);
 			
 			// Some customers attending "Couple Bachata" at 18
 			
-			Attendee attendee19 = new Attendee("Credit Card", 14);
+			Attendee attendee19 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 18, 00));
 			attendee19.setCustomer(customer1);
 			attendee19.setClassRecord(classRecord4);
 			attendeeRepository.save(attendee19);
 		
-			Attendee attendee20 = new Attendee("Credit Card", 14);
+			Attendee attendee20 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 18, 00));
 			attendee20.setCustomer(customer2);
 			attendee20.setClassRecord(classRecord4);
 			attendeeRepository.save(attendee20);
 			
-			Attendee attendee21 = new Attendee("Credit Card", 14);
+			Attendee attendee21 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 18, 00));
 			attendee21.setCustomer(customer5);
 			attendee21.setClassRecord(classRecord4);
 			attendeeRepository.save(attendee21);
 			
-			Attendee attendee22 = new Attendee("Credit Card", 14);
+			Attendee attendee22 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 18, 00));
 			attendee22.setCustomer(customer8);
 			attendee22.setClassRecord(classRecord4);
 			attendeeRepository.save(attendee22);
 			
-			Attendee attendee23 = new Attendee("Credit Card", 14);
+			Attendee attendee23 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 18, 00));
 			attendee23.setCustomer(customer10);
 			attendee23.setClassRecord(classRecord4);
 			attendeeRepository.save(attendee23);
 			
-			Attendee attendee24 = new Attendee("Credit Card", 14);
+			Attendee attendee24 = new Attendee("Credit Card", 14, LocalDateTime.of(2020, 03, 26, 18, 00));
 			attendee24.setCustomer(customer12);
 			attendee24.setClassRecord(classRecord4);
 			attendeeRepository.save(attendee24);

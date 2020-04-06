@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import moment from 'moment';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import MomentUtils from '@date-io/moment';
 import {
   DateTimePicker,
@@ -18,7 +19,7 @@ import {
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { Trash, PersonPlus } from 'react-bootstrap-icons';
+import { Trash, PersonPlus, FilePlus } from 'react-bootstrap-icons';
 import '../App.css';
 
 export default function Classes() {
@@ -32,9 +33,9 @@ export default function Classes() {
   useEffect( () => fetchDataTeachers(), []);
   useEffect( () => fetchData(), []);
 
-  const [newClassRecord, setClassRecord] = React.useState({'name':'','startDateTime': new Date(),'duration':'', 'teacher':''}); 
-  
-  const defaultDate = new Date();
+  const [newClassRecord, setClassRecord] = React.useState({'name':'','startDateTime': new Date('April 1, 2020 17:00:00'),'duration':'', 'teacher':''}); 
+
+  const MySwal = withReactContent(Swal);
 
   function checkIsValid(obj) {
     for (var key in obj) {
@@ -76,11 +77,34 @@ console.log("Validate:" + checkIsValid(newClassRecord));
     .catch(err => console.log(err))
   };
   const deleteClassRecord = (link) => {
-    if (window.confirm('Are you sure?')) {
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete!'
+    }).then((result) => {
+      if (result.value) {
         fetch(link, {method: 'DELETE'})
-        .then(res => fetchData())
-        .catch(err => console.error(err))
-    }
+        .then(res => {
+          if(res.status===409){   
+            MySwal.fire({         
+              icon: 'error',
+              title: "Can't delete this!",
+              text: 'There are customers attending this class, bookings should be removed first.'    
+            })
+          }
+            fetchData();
+        })
+        .catch(err => {
+          console.error(err);   
+        })
+      }
+    })    
+    
   };
 const updateClassRecord = (row) => {
   console.log("Start update (put)");
@@ -129,29 +153,38 @@ const addClassRecord = () => {
   .then(res => fetchData())
   .catch(err => console.log(err))
   } else {
-    console.log("All fields are required to fill!");
+    Swal.fire({         
+      icon: 'error',
+      title: "Can't add class record!",
+      text: 'All fields are required to fill.'       
+    })
+ 
   }
 };
 
   const columns = [{
     dataField: 'name', 
     text: 'Class name',
+    classes: 'editableCol',
     hidden: false
     }, {
-    dataField: 'startDateTime',
+    dataField: 'startDateTimePretty',
     text: 'Date and time',
     headerFormatter: headerFormatter,
     filter: textFilter(),
+    editable: false,
     sort: true
     }, {
     dataField: 'teacherFullName',
     text: 'Teacher',
     headerFormatter: headerFormatter,
     filter: textFilter(),
+    editable: false,
     sort: true
     }, {
     dataField: 'duration',
     text: 'Duration',
+    classes: 'editableCol',
     sort: true
     }, {
     dataField: 'links[0].href',
@@ -178,17 +211,19 @@ const addClassRecord = () => {
   return (
     <>
 
-    <Container fluid-lg className="BodyContainer">
-    <div className="SectionHeader">
-                <h1 className="SectionHeaderTitle">Manage Classes</h1>
-        </div>
-      <Row className="AddFormContainer">
-      <div className="FieldsContainer">
-      <form className="EditForm" noValidate autoComplete="off">
+<Container fluid={"xl"} className="BodyContainer">
+      <Row>
+        <Col className="SectionHeader">
+          <h1 className="SectionHeaderTitle">Manage class records</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} className="AddFormContainer">
+          <form className="EditForm" noValidate autoComplete="off">
                 <TextField
                         autoFocus
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="name"
                         value={newClassRecord.name} 
                         label="Class name"
@@ -197,18 +232,20 @@ const addClassRecord = () => {
                    
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                    
-                    <DateTimePicker
-        label="DateTimePicker"
-        inputVariant="outlined"
-        value={newClassRecord.startDateTime}
-        onChange={value => handleSelectDate(value)}
-      />
-                  </MuiPickersUtilsProvider>
+                        <DateTimePicker
+                          label="Date and time"
+                          inputVariant="filled"
+                          value={newClassRecord.startDateTime}
+                          onChange={value => handleSelectDate(value)}
+                        />
+                     </MuiPickersUtilsProvider>
                     
                      <TextField
                         margin="normal"
-                        variant="outlined"
+                        variant="filled"
                         name="duration"
+                        type="number"
+                        className="NarrowInput"
                         value={newClassRecord.duration} 
                         label="Duration"
                         onChange = {e => handleInputChange(e) }
@@ -219,16 +256,18 @@ const addClassRecord = () => {
                         getOptionLabel={(option) => (option.firstName + " " + option.lastName)}
                         onChange={(event, value) => handleInputChangeSelect(value)}
                         style={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Teacher" variant="outlined" />}
+                        renderInput={(params) => <TextField {...params} label="Teacher" variant="filled" />}
                         />
+                        <div className="ButtonContainer">
                         <Button onClick={addClassRecord}
                         color="primary" variant="contained" size="large"
                         className="FormButton"
-                        startIcon={<PersonPlus />}>
-                            Add Customer
-                        </Button>   
+                        startIcon={<FilePlus />}>
+                            Add Class
+                        </Button>  
+                        </div> 
                   </form>   
-                </div>
+                </Col>
       </Row>
 
     

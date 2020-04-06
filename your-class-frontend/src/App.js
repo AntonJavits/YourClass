@@ -7,6 +7,7 @@ import Bookings from './components/Bookings';
 import Customers from './components/Customers';
 import ClassRecords from './components/ClassRecords';
 import Teachers from './components/Teachers';
+import Reports from './components/Reports';
 
 
 import './App.css';
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/customers" component={Customers} />
                 <Route path="/classes" component={ClassRecords} />
                 <Route path="/teachers" component={Teachers} />
+                <Route path="/reports" component={Reports} />
                 <Redirect from="/" to="/bookings"/>
             
             </Switch>
