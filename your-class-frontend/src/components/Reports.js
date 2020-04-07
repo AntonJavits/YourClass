@@ -159,10 +159,11 @@ export default function Reports() {
             </Col>
         </Row>
         <Row>
-            <Col md={12} className="AddFormContainer">
-                
+            <Col md={12} className="ReportContainer">
+
+                <h2>Attendees by class</h2>
                 <BarChart width={800} height={300} data={stateClasses} layout="vertical"
-                margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+                margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis type="number"/>
         <YAxis type="category" width={300} dataKey="name"/>
@@ -174,10 +175,10 @@ export default function Reports() {
             
             
             </Col>
-            <Col className="AddFormContainer">
-            
+            <Col className="ReportContainer">
+                <h2>Teachers' billable hours</h2>
                 <BarChart width={800} height={300} data={teacherRecords} layout="vertical"
-                margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+                margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
                 <CartesianGrid strokeDasharray="3 3"/>
                 <XAxis type="number"/>
                 <YAxis type="category" width={300} dataKey="name"/>

@@ -21,6 +21,7 @@ import '../App.css';
 
 export default function Bookings() {
 
+
   const localizer = momentLocalizer(moment);
       console.log(new Date());
 
@@ -32,6 +33,10 @@ export default function Bookings() {
 
   // State of values in table (attendees)
   const [stateAttendees, setStateAttendees] = React.useState([]);
+
+    // State of values for calendar (events generated from classes)
+    const [stateEvents, setStateEvents] = React.useState([]);
+
 
   useEffect( () => fetchDataCustomers(), []);
   useEffect( () => fetchDataClassRecords(), []);
@@ -78,11 +83,27 @@ export default function Bookings() {
     } )
     .catch(err => console.log(err))
   };
+
+  const myEvents = [];
+
   const fetchDataClassRecords = () => {
     fetch('http://localhost:8080/api/classRecords')
     .then(response => response.json())
     .then(data => { 
-        setStateClassRecords(data.content);
+
+      setStateClassRecords(data.content);
+
+            for (let i=0; i<data.content.length; i++) {
+              myEvents.push({ 'title' : data.content[i].name,
+                              'start' : new Date(data.content[i].startDateTime),
+                              'end' :  new Date(data.content[i].endDateTime) });
+            };
+            
+            console.log(myEvents);
+            setStateEvents(myEvents);
+            console.log("stateEvents:...");
+            console.log(stateEvents);
+        
     } )
     .catch(err => console.log(err))
   };
@@ -278,7 +299,7 @@ const addAttendeeRecord = () => {
         
           <ExpansionPanel>
             <ExpansionPanelSummary
-              expandIcon={<ChevronDown />}
+              expandIcon={<ChevronDown className="WhiteIcon" />}
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
@@ -288,12 +309,12 @@ const addAttendeeRecord = () => {
               
               <Calendar
               localizer={localizer}
-              events={stateClassRecords}
-              titleAccessor="name"
-              startAccessor="startDateTime"
-              endAccessor="endDateTime"
+              events={stateEvents}
+              step={60}
+              startAccessor="start"
+              endAccessor="end"
               defaultView={Views.month}
-              views={{ month: true, week: true, day: true }}
+              views={{ month: true, week: true, day: true, agenda: true }}
               defaultDate={new Date(2020, 2, 1)}
             />
               

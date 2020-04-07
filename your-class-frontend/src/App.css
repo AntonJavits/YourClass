@@ -7,17 +7,14 @@ body {
 .AddFormContainer,
 .TableContainer,
 .CalendarContainer,
-body .MuiPaper-elevation1 {
+body .MuiPaper-elevation1,
+.ReportContainer {
   
-
   background: #fff;
   -webkit-box-shadow: 0px 0px 11px 0px rgb(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.15);
-
-
   border-radius: 3px;
-
   margin-bottom: 1.5rem;
 }
 
@@ -39,8 +36,9 @@ background: linear-gradient(77deg, rgba(0,143,162,1) 0%, rgba(0,168,190,1) 100%)
 
 .navbar-brand {
   font-size: 1.5rem;
+  font-weight: bold;
   line-height: 2rem;
-  padding: 0.9rem 2rem 1.1rem 3.2rem;
+  padding: 0.48rem 2rem 1.1rem 3.2rem;
   color: orange !important;
 }
 
@@ -56,12 +54,13 @@ background: linear-gradient(77deg, rgba(0,143,162,1) 0%, rgba(0,168,190,1) 100%)
 
 .navbar-nav a:hover {
   text-decoration: none;
+  background: grba(0,0,0,0.1);
 }
 
 body .navbar-nav .active {
   font-weight: bold;
   border-top: 3px solid orange;
-  padding: 0.6rem 1.2rem 1.1rem 1.2rem;
+  padding: 0.67rem 1.2rem 1.1rem 1.2rem;
 }
 
 .BodyContainer {
@@ -71,6 +70,7 @@ body .navbar-nav .active {
 .SectionHeaderTitle {
   margin-bottom: 2rem;
   margin-left: 0.7rem;
+  color: #005662;
 }
 
 .AddFormContainer {
@@ -149,21 +149,25 @@ body .navbar-nav .active {
           background-color: #fff;
         }
 
-.MuiExpansionPanel-root, .MuiExpansionPanelSummary-root {
-  background: rgb(0,143,162);
-  background: linear-gradient(77deg, rgba(0,143,162,1) 0%, rgba(0,168,190,1) 100%);
+.MuiExpansionPanelSummary-root {
+  background: #52d3a4 !important;
+}
+
+.WhiteIcon {
+  color: #fff !important;
 }
 .CalendarCol {
   padding: 0;
 }
 .MuiExpansionPanelSummary-content {
-  padding: 0.4rem 0.4rem 0.5rem 0.4rem;
+  padding: 0.4rem 0.4rem 0.5rem 0.7rem;
   font-weight: bold;
-  color: white;
+  color: #fff;
   text-transform: uppercase;
+
 }
 .MuiExpansionPanelDetails-root .MuiIconButton-label {
-  color: #fff !important;
+  color: #beecff !important;
 }
 body .MuiExpansionPanelDetails-root {
   height: 600px;
@@ -191,6 +195,7 @@ body .MuiExpansionPanelDetails-root {
 .react-bootstrap-table .table thead th {
   vertical-align: bottom;
   border-bottom: 2px solid #dee2e6;
+  color: #005662;
 }
 .react-bootstrap-table .table td, .table th {
   padding: .75rem;
@@ -210,7 +215,7 @@ body .MuiExpansionPanelDetails-root {
 .react-bootstrap-table td {
   font-size: 1.2em;
   height: 70px;
-  color: #444444;
+  color: #1a5c64;
 }
 
 .react-bootstrap-table .editableCol {
@@ -256,10 +261,19 @@ body .react-bootstrap-table .react-bootstrap-table-editing-cell input {
   float: right;
 }
 .DeleteIcon {
-  color: red;
+  color: #266972;
   margin-bottom: 15px;
 }
+.DeleteIcon:hover {
+  color: #003f47;
+}
 
+.ReportContainer h2 {
+  margin: 2rem 0 1rem 2rem;
+  color: #8eb6bb;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
 .custom-tooltip {
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid #dee2e6;
