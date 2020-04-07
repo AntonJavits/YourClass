@@ -52,7 +52,7 @@ console.log("Validate:" + checkIsValid(newClassRecord));
 
   const fetchDataTeachers = () => {
     console.log("start fetch teachers");
-    fetch('https://yourclass.javits.fi/api/teachers') 
+    fetch('http://localhost:8080/api/teachers') 
     .then(response => response.json())
     .then(data => { 
         setStateTeachers(data.content);
@@ -62,7 +62,7 @@ console.log("Validate:" + checkIsValid(newClassRecord));
 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('https://yourclass.javits.fi/api/classRecords')
+    fetch('http://localhost:8080/api/classRecords')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -138,7 +138,7 @@ const handleInputChange = (event) => {
 
 const addClassRecord = () => {
   if ( checkIsValid(newClassRecord) ) {
-  fetch('https://yourclass.javits.fi/api/classRecords', {
+  fetch('http://localhost:8080/api/classRecords', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -209,7 +209,7 @@ const addClassRecord = () => {
     <Container fluid={"xl"} className="BodyContainer">
       <Row>
         <Col className="SectionHeader">
-          <h1 className="SectionHeaderTitle">Class records management</h1>
+          <h1 className="SectionHeaderTitle">Class record management</h1>
         </Col>
       </Row>
       <Row>

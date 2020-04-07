@@ -41,7 +41,7 @@ export default function Customers() {
 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('https://yourclass.javits.fi/api/customers')
+    fetch('http://localhost:8080/api/customers')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -90,7 +90,7 @@ const handleInputChange = (event) => {
 
 const addCustomer = () => {
   if ( checkIsValid(newCustomer) ) {
-  fetch('https://yourclass.javits.fi/api/customers', {
+  fetch('http://localhost:8080/api/customers', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

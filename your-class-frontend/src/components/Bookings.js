@@ -65,7 +65,7 @@ export default function Bookings() {
   } 
 
   const fetchDataAttendees = () => {
-    fetch('https://yourclass.javits.fi/api/attendees') 
+    fetch('http://localhost:8080/api/attendees') 
     .then(response => response.json())
     .then(data => { 
         setStateAttendees(data.content);
@@ -74,7 +74,7 @@ export default function Bookings() {
   };
 
   const fetchDataCustomers = () => {
-    fetch('https://yourclass.javits.fi/api/customers')
+    fetch('http://localhost:8080/api/customers')
     .then(response => response.json())
     .then(data => { 
         setStateCustomers(data.content);
@@ -85,7 +85,7 @@ export default function Bookings() {
   const myEvents = [];
 
   const fetchDataClassRecords = () => {
-    fetch('https://yourclass.javits.fi/api/classRecords')
+    fetch('http://localhost:8080/api/classRecords')
     .then(response => response.json())
     .then(data => { 
 
@@ -154,7 +154,7 @@ const handleInputChangeSelectClass = (link) => {
 
 const addAttendeeRecord = () => {
   if ( checkIsValid(newAttendeeRecord) ) {
-  fetch('https://yourclass.javits.fi/api/attendees', {
+  fetch('http://localhost:8080/api/attendees', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -234,7 +234,7 @@ const addAttendeeRecord = () => {
     <Container fluid={"xl"} className="BodyContainer">
       <Row>
         <Col className="SectionHeader">
-          <h1 className="SectionHeaderTitle">Bookings management</h1>
+          <h1 className="SectionHeaderTitle">Booking management</h1>
         </Col>
       </Row>
       <Row>

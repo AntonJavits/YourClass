@@ -25,7 +25,7 @@ export default function Reports() {
 
     const fetchData = () => {
         console.log("start fetch");
-        fetch('https://yourclass.javits.fi/getattendees')
+        fetch('http://localhost:8080/getattendees')
         .then(response => response.json())
         .then(data => { 
             data.sort((a, b) => a.classRecordInfo.localeCompare(b.classRecordInfo));
@@ -53,7 +53,7 @@ export default function Reports() {
 
     const fetchDataTeachers = () => {
         console.log("start fetch");
-        fetch('https://yourclass.javits.fi/api/classRecords')
+        fetch('http://localhost:8080/api/classRecords')
         .then(response => response.json())
         .then(data => { 
 

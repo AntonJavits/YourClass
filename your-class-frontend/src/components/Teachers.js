@@ -31,7 +31,7 @@ export default function Teachers() {
   } 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('https://yourclass.javits.fi/api/teachers')
+    fetch('http://localhost:8080/api/teachers')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -90,7 +90,7 @@ const handleInputChange = (event) => {
 }
 
 const addCustomer = () => {
-  fetch('https://yourclass.javits.fi/api/teachers', {
+  fetch('http://localhost:8080/api/teachers', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -157,7 +157,7 @@ const addCustomer = () => {
     <Container fluid={"xl"} className="BodyContainer">
       <Row>
         <Col className="SectionHeader">
-          <h1 className="SectionHeaderTitle">Teachers management</h1>
+          <h1 className="SectionHeaderTitle">Teacher management</h1>
         </Col>
       </Row>
       <Row>
