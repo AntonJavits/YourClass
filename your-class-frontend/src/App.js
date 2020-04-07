@@ -28,6 +28,7 @@ function App() {
                 <Route path="/teachers" component={Teachers} />
                 <Route path="/reports" component={Reports} />
                 <Redirect from="/" to="/bookings"/>
+                <Redirect from="/error" to="/bookings"/>
             
             </Switch>
     </BrowserRouter>

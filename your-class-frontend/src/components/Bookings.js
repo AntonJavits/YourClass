@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import { Calendar, Views, Navigate, momentLocalizer } from 'react-big-calendar';
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
@@ -13,17 +13,14 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import moment from 'moment';
-import Moment from 'react-moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { Trash, PersonPlus, ChevronDown, CheckCircle } from 'react-bootstrap-icons';
+import { Trash, ChevronDown, CheckCircle } from 'react-bootstrap-icons';
 import '../App.css';
 
 export default function Bookings() {
 
-
-  const localizer = momentLocalizer(moment);
-      console.log(new Date());
+  console.log("0.2");
 
   // State of values for select (customers)
   const [stateCustomers, setStateCustomers] = React.useState([]);
@@ -34,13 +31,14 @@ export default function Bookings() {
   // State of values in table (attendees)
   const [stateAttendees, setStateAttendees] = React.useState([]);
 
-    // State of values for calendar (events generated from classes)
-    const [stateEvents, setStateEvents] = React.useState([]);
-
+  // State of values for calendar (events generated from classes)
+  const [stateEvents, setStateEvents] = React.useState([]);
 
   useEffect( () => fetchDataCustomers(), []);
   useEffect( () => fetchDataClassRecords(), []);
   useEffect( () => fetchDataAttendees(), []);
+
+  const localizer = momentLocalizer(moment);
 
   const [newAttendeeRecord, setAttendeeRecord] = React.useState({
     'bookingDateTime': (new Date()).toISOString().split('.')[0],
@@ -67,7 +65,7 @@ export default function Bookings() {
   } 
 
   const fetchDataAttendees = () => {
-    fetch('http://localhost:8080/api/attendees') 
+    fetch('https://yourclass.javits.fi/api/attendees') 
     .then(response => response.json())
     .then(data => { 
         setStateAttendees(data.content);
@@ -76,7 +74,7 @@ export default function Bookings() {
   };
 
   const fetchDataCustomers = () => {
-    fetch('http://localhost:8080/api/customers')
+    fetch('https://yourclass.javits.fi/api/customers')
     .then(response => response.json())
     .then(data => { 
         setStateCustomers(data.content);
@@ -87,7 +85,7 @@ export default function Bookings() {
   const myEvents = [];
 
   const fetchDataClassRecords = () => {
-    fetch('http://localhost:8080/api/classRecords')
+    fetch('https://yourclass.javits.fi/api/classRecords')
     .then(response => response.json())
     .then(data => { 
 
@@ -98,12 +96,7 @@ export default function Bookings() {
                               'start' : new Date(data.content[i].startDateTime),
                               'end' :  new Date(data.content[i].endDateTime) });
             };
-            
-            console.log(myEvents);
             setStateEvents(myEvents);
-            console.log("stateEvents:...");
-            console.log(stateEvents);
-        
     } )
     .catch(err => console.log(err))
   };
@@ -154,7 +147,6 @@ const handleInputChangeSelectClass = (link) => {
     setAttendeeRecord({...newAttendeeRecord, 'attendee': ''});
   }
 }
-
 /* To use with payment info fields 
   const handleInputChange = (event) => {
   setAttendeeRecord({...newAttendeeRecord, [event.target.name]: event.target.value});
@@ -162,7 +154,7 @@ const handleInputChangeSelectClass = (link) => {
 
 const addAttendeeRecord = () => {
   if ( checkIsValid(newAttendeeRecord) ) {
-  fetch('http://localhost:8080/api/attendees', {
+  fetch('https://yourclass.javits.fi/api/attendees', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -222,7 +214,6 @@ const addAttendeeRecord = () => {
       return 'right';
     },
 
-    
     formatter: (cell, row) => {
       if (row)
         return (
@@ -243,7 +234,7 @@ const addAttendeeRecord = () => {
     <Container fluid={"xl"} className="BodyContainer">
       <Row>
         <Col className="SectionHeader">
-          <h1 className="SectionHeaderTitle">Manage Bookings</h1>
+          <h1 className="SectionHeaderTitle">Bookings management</h1>
         </Col>
       </Row>
       <Row>
@@ -337,7 +328,7 @@ const addAttendeeRecord = () => {
 
       </Row>
     </Container>
-     </>
+    </>
   );
 }
 

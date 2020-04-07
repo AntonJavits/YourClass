@@ -1,25 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import Navigation from './Navigation';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 import Swal from 'sweetalert2'
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { Trash, PersonPlus } from 'react-bootstrap-icons';
-
 import '../App.css';
 
 export default function Teachers() {
-
-
 
   // State of values in table
   const [stateCustomers, setState] = React.useState([]);
@@ -33,15 +25,13 @@ export default function Teachers() {
     return (
       <div style={ { display: 'flex', flexDirection: 'column' } }>
         { filterElement }
-
         { column.text }
       </div>
     );
   } 
-
   const fetchData = () => {
     console.log("start fetch");
-    fetch('http://localhost:8080/api/teachers')
+    fetch('https://yourclass.javits.fi/api/teachers')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -62,15 +52,13 @@ export default function Teachers() {
       confirmButtonText: 'Yes, delete!'
     }).then((result) => {
       if (result.value) {
-
               fetch(link, {method: 'DELETE'})
               .then(res => {
                 if(res.status===409){   // https://github.com/sweetalert2/sweetalert2-react-content
                   Swal.fire({         // https://sweetalert2.github.io/
                     icon: 'error',
                     title: "Can't delete this!",
-                    text: 'There are classes assosiated with this teacher, new teacher should be assigned first.'
-                              
+                    text: 'There are classes assosiated with this teacher, new teacher should be assigned first.'       
                   })
                 }
                   fetchData();
@@ -78,7 +66,6 @@ export default function Teachers() {
               .catch(err => {
                 console.error(err);   
               })
-
       }
     })
   };
@@ -103,7 +90,7 @@ const handleInputChange = (event) => {
 }
 
 const addCustomer = () => {
-  fetch('http://localhost:8080/api/teachers', {
+  fetch('https://yourclass.javits.fi/api/teachers', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -165,20 +152,18 @@ const addCustomer = () => {
       }
     ];
 
-  
   return (
     <>
-
-<Container fluid={"xl"} className="BodyContainer">
+    <Container fluid={"xl"} className="BodyContainer">
       <Row>
         <Col className="SectionHeader">
-          <h1 className="SectionHeaderTitle">Manage teachers</h1>
+          <h1 className="SectionHeaderTitle">Teachers management</h1>
         </Col>
       </Row>
       <Row>
         <Col md={12} className="AddFormContainer">
           <form className="EditForm" noValidate autoComplete="off">
-                <TextField
+                    <TextField
                         autoFocus
                         margin="normal"
                         variant="filled"
@@ -223,24 +208,18 @@ const addCustomer = () => {
                   </form>   
                 </Col>
       </Row>
-
-    
       <Row className="TableContainer">
           <BootstrapTable keyField='links[0].href'
             data={ stateCustomers } columns={ columns }  // data stateCustomers
             headerClasses="header-class"  bootstrap4 striped hover
             filter={ filterFactory() } bordered={ false } 
-            
             cellEdit={ cellEditFactory({
                 mode: 'click',
                 blurToSave: true,
                 afterSaveCell: (oldValue, newValue, row, column) => { updateCustomer(row); }
             }) }
           />
-      
       </Row>
-
-
     </Container>
      </>
   );

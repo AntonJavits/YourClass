@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import MomentUtils from '@date-io/moment';
@@ -16,10 +13,9 @@ import {
   DateTimePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import { Trash, PersonPlus, FilePlus } from 'react-bootstrap-icons';
+import { Trash, FilePlus } from 'react-bootstrap-icons';
 import '../App.css';
 
 export default function Classes() {
@@ -34,7 +30,6 @@ export default function Classes() {
   useEffect( () => fetchData(), []);
 
   const [newClassRecord, setClassRecord] = React.useState({'name':'','startDateTime': new Date('April 1, 2020 17:00:00'),'duration':'', 'teacher':''}); 
-
   const MySwal = withReactContent(Swal);
 
   function checkIsValid(obj) {
@@ -57,7 +52,7 @@ console.log("Validate:" + checkIsValid(newClassRecord));
 
   const fetchDataTeachers = () => {
     console.log("start fetch teachers");
-    fetch('http://localhost:8080/api/teachers') 
+    fetch('https://yourclass.javits.fi/api/teachers') 
     .then(response => response.json())
     .then(data => { 
         setStateTeachers(data.content);
@@ -67,7 +62,7 @@ console.log("Validate:" + checkIsValid(newClassRecord));
 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('http://localhost:8080/api/classRecords')
+    fetch('https://yourclass.javits.fi/api/classRecords')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -129,12 +124,12 @@ const handleInputChangeSelect = (link) => {
 
 const handleSelectDate = (value) => {
   if (value !== null) {
-   // const dateStr = ( moment(value).format('DD-MM-YYYY') );
-  setClassRecord({...newClassRecord, 'startDateTime': value});
-  console.log(newClassRecord);
-} else {
-  setClassRecord({...newClassRecord, 'startDateTime': ''});
-}
+    // const dateStr = ( moment(value).format('DD-MM-YYYY') );
+    setClassRecord({...newClassRecord, 'startDateTime': value});
+    console.log(newClassRecord);
+  } else {
+    setClassRecord({...newClassRecord, 'startDateTime': ''});
+  }
 }
 
 const handleInputChange = (event) => {
@@ -143,7 +138,7 @@ const handleInputChange = (event) => {
 
 const addClassRecord = () => {
   if ( checkIsValid(newClassRecord) ) {
-  fetch('http://localhost:8080/api/classRecords', {
+  fetch('https://yourclass.javits.fi/api/classRecords', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -211,10 +206,10 @@ const addClassRecord = () => {
   return (
     <>
 
-<Container fluid={"xl"} className="BodyContainer">
+    <Container fluid={"xl"} className="BodyContainer">
       <Row>
         <Col className="SectionHeader">
-          <h1 className="SectionHeaderTitle">Manage class records</h1>
+          <h1 className="SectionHeaderTitle">Class records management</h1>
         </Col>
       </Row>
       <Row>
@@ -267,16 +262,13 @@ const addClassRecord = () => {
                         </Button>  
                         </div> 
                   </form>   
-                </Col>
+            </Col>
       </Row>
-
-    
       <Row className="TableContainer">
           <BootstrapTable keyField='links[0].href'
             data={ stateClassRecords } columns={ columns }  // data stateCustomers
             headerClasses="header-class"  bootstrap4 striped hover
             filter={ filterFactory() } bordered={ false } 
-            
             cellEdit={ cellEditFactory({
                 mode: 'click',
                 blurToSave: true,
@@ -285,8 +277,6 @@ const addClassRecord = () => {
           />
       
       </Row>
-
-
     </Container>
      </>
   );

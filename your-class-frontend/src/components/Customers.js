@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Navigation from './Navigation';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import Swal from 'sweetalert2'
-
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { Trash, PersonPlus } from 'react-bootstrap-icons';
@@ -45,7 +41,7 @@ export default function Customers() {
 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('http://localhost:8080/api/customers')
+    fetch('https://yourclass.javits.fi/api/customers')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -94,7 +90,7 @@ const handleInputChange = (event) => {
 
 const addCustomer = () => {
   if ( checkIsValid(newCustomer) ) {
-  fetch('http://localhost:8080/api/customers', {
+  fetch('https://yourclass.javits.fi/api/customers', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -163,14 +159,12 @@ const addCustomer = () => {
       }
     ];
 
-  
   return (
     <>
-  
-  <Container fluid={"xl"} className="BodyContainer">
+   <Container fluid={"xl"} className="BodyContainer">
       <Row>
         <Col className="SectionHeader">
-          <h1 className="SectionHeaderTitle">Manage Customers</h1>
+          <h1 className="SectionHeaderTitle">Customers management</h1>
         </Col>
       </Row>
       <Row>
@@ -219,10 +213,9 @@ const addCustomer = () => {
                         </Button>
                          </div>  
                   </form>   
-                </Col>
+              </Col>
       </Row>
 
-    
       <Row className="TableContainer">
           <BootstrapTable keyField='links[0].href'
             data={ stateCustomers } columns={ columns }  // data stateCustomers
@@ -235,10 +228,8 @@ const addCustomer = () => {
                 afterSaveCell: (oldValue, newValue, row, column) => { updateCustomer(row); }
             }) }
           />
-      
       </Row>
-
-
+    
     </Container>
      </>
   );
