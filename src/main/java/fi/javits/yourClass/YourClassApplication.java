@@ -9,10 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import fi.javits.yourClass.domain.User;
 import fi.javits.yourClass.domain.Attendee;
 import fi.javits.yourClass.domain.AttendeeRepository;
 import fi.javits.yourClass.domain.ClassRecord;
@@ -21,12 +19,16 @@ import fi.javits.yourClass.domain.Customer;
 import fi.javits.yourClass.domain.CustomerRepository;
 import fi.javits.yourClass.domain.Teacher;
 import fi.javits.yourClass.domain.TeacherRepository;
+import fi.javits.yourClass.domain.UserRepository;
 
 
 @SpringBootApplication
 public class YourClassApplication {
 	
 	// Inject repositories
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -49,6 +51,17 @@ public class YourClassApplication {
 	@Bean
 	CommandLineRunner runner(){
 		return args -> {
+			
+			// Create users: admin/admin user/user
+			User user1 = new User("user"
+			,
+			"$2a$04$oV8zJ4PusCfRl7iP6OOrvedhpD..xm1qc4ifsPBl5DxRlgsWDrjqO", "user");
+			User user2 = new User("admin"
+			,
+			"$2a$04$WM0MIl.jSwm9Ll3eO33JbujAIQySnChfMQlG7FKM8QsxKvIQYhSWe", "admin");
+			userRepository.save(user1);
+			userRepository.save(user2);
+			
 			// Save demo data to database
 			
 			// Add customer objects and save these to db
