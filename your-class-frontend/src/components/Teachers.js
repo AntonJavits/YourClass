@@ -31,7 +31,7 @@ export default function Teachers() {
   } 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('http://localhost:8080/api/teachers')
+    fetch('https://yourclass.javits.fi/api/teachers')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -52,7 +52,7 @@ export default function Teachers() {
       confirmButtonText: 'Yes, delete!'
     }).then((result) => {
       if (result.value) {
-              fetch(link, {method: 'DELETE'})
+              fetch(link.replace(/^http:/, 'https:'), {method: 'DELETE'})
               .then(res => {
                 if(res.status===409){   // https://github.com/sweetalert2/sweetalert2-react-content
                   Swal.fire({         // https://sweetalert2.github.io/
@@ -90,7 +90,7 @@ const handleInputChange = (event) => {
 }
 
 const addCustomer = () => {
-  fetch('http://localhost:8080/api/teachers', {
+  fetch('https://yourclass.javits.fi/api/teachers', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

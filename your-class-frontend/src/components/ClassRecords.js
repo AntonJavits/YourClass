@@ -52,7 +52,7 @@ console.log("Validate:" + checkIsValid(newClassRecord));
 
   const fetchDataTeachers = () => {
     console.log("start fetch teachers");
-    fetch('http://localhost:8080/api/teachers') 
+    fetch('https://yourclass.javits.fi/api/teachers') 
     .then(response => response.json())
     .then(data => { 
         setStateTeachers(data.content);
@@ -62,7 +62,7 @@ console.log("Validate:" + checkIsValid(newClassRecord));
 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('http://localhost:8080/api/classRecords')
+    fetch('https://yourclass.javits.fi/api/classRecords')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -83,7 +83,7 @@ console.log("Validate:" + checkIsValid(newClassRecord));
       confirmButtonText: 'Yes, delete!'
     }).then((result) => {
       if (result.value) {
-        fetch(link, {method: 'DELETE'})
+        fetch(link.replace(/^http:/, 'https:'), {method: 'DELETE'})
         .then(res => {
           if(res.status===409){   
             MySwal.fire({         
@@ -138,7 +138,7 @@ const handleInputChange = (event) => {
 
 const addClassRecord = () => {
   if ( checkIsValid(newClassRecord) ) {
-  fetch('http://localhost:8080/api/classRecords', {
+  fetch('https://yourclass.javits.fi/api/classRecords', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

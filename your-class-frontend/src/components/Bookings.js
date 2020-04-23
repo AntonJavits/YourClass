@@ -65,7 +65,7 @@ export default function Bookings() {
   } 
 
   const fetchDataAttendees = () => {
-    fetch('http://localhost:8080/api/attendees') 
+    fetch('https://yourclass.javits.fi/api/attendees') 
     .then(response => response.json())
     .then(data => { 
         setStateAttendees(data.content);
@@ -74,7 +74,7 @@ export default function Bookings() {
   };
 
   const fetchDataCustomers = () => {
-    fetch('http://localhost:8080/api/customers')
+    fetch('https://yourclass.javits.fi/api/customers')
     .then(response => response.json())
     .then(data => { 
         setStateCustomers(data.content);
@@ -85,7 +85,7 @@ export default function Bookings() {
   const myEvents = [];
 
   const fetchDataClassRecords = () => {
-    fetch('http://localhost:8080/api/classRecords')
+    fetch('https://yourclass.javits.fi/api/classRecords')
     .then(response => response.json())
     .then(data => { 
 
@@ -112,7 +112,7 @@ export default function Bookings() {
       confirmButtonText: 'Yes, delete!'
     }).then((result) => {
       if (result.value) {
-        fetch(link, {method: 'DELETE'})
+        fetch(link.replace(/^http:/, 'https:'), {method: 'DELETE'})
         .then(res => fetchDataAttendees())
         .catch(err => console.error(err))
       }
@@ -154,7 +154,7 @@ const handleInputChangeSelectClass = (link) => {
 
 const addAttendeeRecord = () => {
   if ( checkIsValid(newAttendeeRecord) ) {
-  fetch('http://localhost:8080/api/attendees', {
+  fetch('https://yourclass.javits.fi/api/attendees', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

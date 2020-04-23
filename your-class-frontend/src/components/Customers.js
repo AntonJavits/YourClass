@@ -41,7 +41,7 @@ export default function Customers() {
 
   const fetchData = () => {
     console.log("start fetch");
-    fetch('http://localhost:8080/api/customers')
+    fetch('https://yourclass.javits.fi/api/customers')
     .then(response => response.json())
     .then(data => { 
         setState(data.content);
@@ -62,7 +62,7 @@ export default function Customers() {
     }).then((result) => {
       if (result.value) {
     
-        fetch(link, {method: 'DELETE'})
+        fetch(link.replace(/^http:/, 'https:'), {method: 'DELETE'})
         .then(res => fetchData())
         .catch(err => console.error(err))
       }
@@ -90,7 +90,7 @@ const handleInputChange = (event) => {
 
 const addCustomer = () => {
   if ( checkIsValid(newCustomer) ) {
-  fetch('http://localhost:8080/api/customers', {
+  fetch('https://yourclass.javits.fi/api/customers', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
